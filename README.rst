@@ -1,1 +1,13 @@
-# pyspark-testing
+=====================
+pyspark-testing
+=====================
+pyspark-testing is testing framework for pyspark
+
+
+License
+========
+MIT
+
+Copyright (c) 2020 kota matsuoka
+
+This software is released under the MIT License.

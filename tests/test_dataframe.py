@@ -31,9 +31,10 @@ def test_is_no_dataframe_instance(data):
         assert_dataframe_equal(left, right)
 
 
-def test_is_out_of_order_columns(data):
+def test_out_of_order_schema(data):
     second_data = pd.DataFrame(
-        data=[['x', 'y', 'z']],
+        data=[['c', 'b', 'a'],
+              ['z', 'y', 'x']],
         columns=['col_3', 'col_2', 'col_1']
     )
     left = spark.createDataFrame(data)
@@ -42,7 +43,7 @@ def test_is_out_of_order_columns(data):
     assert_dataframe_equal(left, right, columns_order=False)
 
 
-def test_is_not_equal_columns(data):
+def test_not_equal_schema(data):
     second_data = pd.DataFrame(
         data=[['x', 'y', 'z']],
         columns=['col_x', 'col_y', 'col_z']
@@ -50,5 +51,18 @@ def test_is_not_equal_columns(data):
     left = spark.createDataFrame(data)
     right = spark.createDataFrame(second_data)
 
-    with pytest.raises(AssertionError, match="columns are not equal"):
+    with pytest.raises(AssertionError, match="schema are not equal"):
+        assert_dataframe_equal(left, right)
+
+
+def test_not_equal_data(data):
+    second_data = pd.DataFrame(
+        data=[['a', 'b', 'invalid'],
+              ['x', 'y', 'z']],
+        columns=['col_1', 'col_2', 'col_3']
+    )
+    left = spark.createDataFrame(data)
+    right = spark.createDataFrame(second_data)
+
+    with pytest.raises(AssertionError, match="data is not equal"):
         assert_dataframe_equal(left, right)

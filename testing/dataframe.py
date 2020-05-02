@@ -10,14 +10,15 @@ def assert_dataframe_equal(left, right, columns_order=True):
     :param columns_order: bool
 
     - Check left and right are DataFrame instance
-    - Check equal columns
+    - Check schema
+    - Check data
     """
     assert isinstance(left, DataFrame), "left is not an DataFrame"
     assert isinstance(right, DataFrame), "right is not an DataFrame"
 
     if columns_order:
-        assert left.columns == right.columns, "columns are not equal"
+        assert left.schema == right.schema, "schema are not equal"
     else:
-        assert left.columns == right.select(left.columns).columns, "columns are not equal"
+        assert left.schema == right.select(left.columns).schema, "schema are not equal"
 
-
+    assert left.count() == left.join(right, left.columns, 'inner').count(), "data is not equal"

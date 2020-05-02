@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 from pyspark.sql import SparkSession
 
-from testing.dataframe import assert_dataframe_equal
+from pyspark_testing import assert_dataframe_equal
 
 spark = SparkSession.builder.getOrCreate()
 
